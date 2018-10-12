@@ -35,8 +35,13 @@ Manager.create(first_name: "Kevin", last_name: "Rivera", username: "kevin", pass
 
 ### res1 Menu ###
 res1.headings.create(content: "Appetizers", order_index: 1)
-res1.items.create(name: "Kashk Bademjan", description: "Cooked eggplant with tomatoe sauce topped with yogurt.", price: 7.00, order_index: 2)
-res1.items.create(name: "Sambuseh", description: "Fried dumplings stuffed with crushed chickpeas and herbs.", price: 6.50, order_index: 3)
+kashk = res1.items.create(name: "Kashk Bademjan", description: "Cooked eggplant with tomatoe sauce topped with yogurt.", price: 7.00, order_index: 2)
+sambuseh = res1.items.create(name: "Sambuseh", description: "Fried dumplings stuffed with crushed chickpeas and herbs.", price: 6.50, order_index: 3)
 res1.headings.create(content: "Entrees", order_index: 4)
-res1.items.create(name: "Koobideh Kebob", description: "Two skewers of seasoned juicy ground beef grilled to perfection.", price: 15.00, order_index: 5)
+koobideh = res1.items.create(name: "Koobideh Kebob", description: "Two skewers of seasoned juicy ground beef grilled to perfection.", price: 15.00, order_index: 5)
 
+### order 1 ###
+
+order1 = user1.orders.create(restaurant_id: res1.id)
+order1.items << kashk
+order1.items << koobideh
