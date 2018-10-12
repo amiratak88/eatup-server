@@ -26,10 +26,17 @@ address2 = Address.create(line1: "81 Prospect Street", city: "New York", state: 
 user1.addresses << address1
 user1.addresses << address2
 
-res1 = Restaurant.create(name: "Bougie Deli", address_id: address1.id, cuisine: "Chu know!", description: "We're awesome!")
+res1 = Restaurant.create(name: "Ravagh", cuisine: "Persian", description: "Awesome persian food!")
+res1.address = Address.create(line1: "210 Mineola Avenue", city: "Roslyn Heights", state: "NY", zipcode: 12345, country: "USA")
 
 user1.favorited_restaurants << res1
 
 Manager.create(first_name: "Kevin", last_name: "Rivera", username: "kevin", password: "123", restaurant_id: res1.id)
 
+### res1 Menu ###
+res1.headings.create(content: "Appetizers", order_index: 1)
+res1.items.create(name: "Kashk Bademjan", description: "Cooked eggplant with tomatoe sauce topped with yogurt.", price: 7.00, order_index: 2)
+res1.items.create(name: "Sambuseh", description: "Fried dumplings stuffed with crushed chickpeas and herbs.", price: 6.50, order_index: 3)
+res1.headings.create(content: "Entrees", order_index: 4)
+res1.items.create(name: "Koobideh Kebob", description: "Two skewers of seasoned juicy ground beef grilled to perfection.", price: 15.00, order_index: 5)
 
