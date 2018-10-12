@@ -8,5 +8,6 @@ class User < ApplicationRecord
 	has_many :favorited_restaurants, through: :favorite_restaurants, source: :restaurant
 
 	has_many :orders
+	has_many :ordered_restaurants, through: :orders, source: :restaurant
 
 end
