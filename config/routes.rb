@@ -1,7 +1,12 @@
 Rails.application.routes.draw do
+  get 'sessions/login_user'
+  get 'sessions/login_manager'
+  get 'sessions/persist_user'
+  get 'sessions/persist_manager'
 	mount ActionCable.server => '/cable'
-
 	get 'restaurants/:id/orders/', to: 'managers#orders'
+	post 'users/login', to: 'sessions#user_login'
+	post 'managers/login', to: 'sessions#manager_login'
 
 	resources :user_addresses
 	resources :order_items

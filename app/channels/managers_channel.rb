@@ -1,7 +1,6 @@
 class ManagersChannel < ApplicationCable::Channel
 	def subscribed
-		byebug
-		stream_for Manager.find(1)
+		stream_for Manager.find(params[:manager])
 	end
 
 	def unsubscribed
