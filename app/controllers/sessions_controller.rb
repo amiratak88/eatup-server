@@ -2,12 +2,14 @@ class SessionsController < ApplicationController
 	def user_login
 		@user = User.find_by(username: user_params[:username])
 		if @user && @user.authenticate(user_params[:password])
-			render json: @user, include: "**"
+			token = JWT.encode({user_id: @user.id}, ENV['SECRET_KEY'])
+			render json: { token: token }
 		else
 			render json: {
 				error: "Wrong username and/or password"
 			}, status: :unauthorized
 		end
+		# 	render json: @user, include: "**"
 	end
 
 	def manager_login
