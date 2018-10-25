@@ -9,7 +9,6 @@ class SessionsController < ApplicationController
 				error: "Wrong username and/or password"
 			}, status: :unauthorized
 		end
-		# 	render json: @user, include: "**"
 	end
 
 	def user_persist

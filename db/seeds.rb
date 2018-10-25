@@ -42,7 +42,7 @@ OrderItem.destroy_all
 # Restaurants
 
 	res_ravagh = Restaurant.create(name: "Ravagh", cuisine: "Persian", description: "Awesome persian food!", address_id: ravagh_address.id)
-	res_marios = Restaurant.create(name: "Ravagh", cuisine: "Italian", description: "Pizza and etc", address_id: marios_address.id)
+	res_marios = Restaurant.create(name: "Mario's Pizzeria", cuisine: "Italian", description: "Pizza and etc", address_id: marios_address.id)
 
 # Managers
 
