@@ -10,4 +10,8 @@ class RestaurantsController < ApplicationController
 		render json: @restaurants, include: "**"
 		# render json: Restaurant.where(name: params[:term]), include: "**"
 	end
+
+	def show
+		render json: Restaurant.find(params[:id]), include: "**"
+	end
 end
