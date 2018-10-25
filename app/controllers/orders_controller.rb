@@ -1,7 +1,7 @@
 class OrdersController < ApplicationController
 	def show
 		order = Order.find(params[:id])
-		render json: order
+		render json: order, include: "**"
 	end
 
 	def create
