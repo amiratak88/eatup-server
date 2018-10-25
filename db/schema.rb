@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 2018_10_11_172720) do
 
   create_table "items", force: :cascade do |t|
     t.string "name"
+    t.string "imgURL"
     t.text "description"
     t.float "price"
     t.integer "order_index"
@@ -74,6 +75,7 @@ ActiveRecord::Schema.define(version: 2018_10_11_172720) do
 
   create_table "restaurants", force: :cascade do |t|
     t.string "name"
+    t.string "imgURL"
     t.integer "address_id"
     t.string "cuisine"
     t.text "description"
