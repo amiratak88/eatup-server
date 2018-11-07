@@ -38,4 +38,10 @@ class OrdersController < ApplicationController
 		# render json: order
 	end
 
+	def update
+		@order = Order.find(params[:id])
+		@order.update(status: params[:status])
+		render json: @order, include: "**"
+	end
+
 end
