@@ -2,14 +2,16 @@ Rails.application.routes.draw do
 
 	mount ActionCable.server => '/cable'
 
-	post 'users/login', to: 'sessions#user_login'
-	get 'users/persist', to: 'sessions#user_persist'
+	post '/users/login', to: 'sessions#user_login'
+	get '/users/persist', to: 'sessions#user_persist'
 	
-	get 'restaurants/search', to: 'restaurants#search'
-	get 'restaurants/:id/orders/', to: 'managers#orders'
+	get '/restaurants/search', to: 'restaurants#search'
+	get '/restaurants/:id/orders', to: 'managers#orders'
+
+	delete '/order_items', to: 'order_items#destroy'
 
 	resources :user_addresses
-	resources :order_items
+	resources :order_items, except: [:destroy]
 	resources :headings
 	resources :items
 	resources :orders
