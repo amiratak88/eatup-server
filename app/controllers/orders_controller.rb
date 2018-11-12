@@ -44,7 +44,6 @@ class OrdersController < ApplicationController
 		render json: order, include: "**"
 
 		if params[:status] == "confirmed"
-			byebug
 			serialized_order = ActiveModelSerializers::Adapter::Json.new(
 				OrderSerializer.new(order)
 			).serializable_hash
