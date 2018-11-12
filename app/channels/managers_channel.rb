@@ -1,6 +1,7 @@
 class ManagersChannel < ApplicationCable::Channel
 	def subscribed
-		stream_for Manager.find(params[:manager])
+		manager = Manager.find(params[:manager])
+		stream_for manager
 	end
 
 	def unsubscribed

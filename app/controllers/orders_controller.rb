@@ -39,9 +39,18 @@ class OrdersController < ApplicationController
 	end
 
 	def update
-		@order = Order.find(params[:id])
-		@order.update(status: params[:status])
-		render json: @order, include: "**"
+		order = Order.find(params[:id])
+		order.update(status: params[:status])
+		render json: order, include: "**"
+
+		if params[:status] == "confirmed"
+			byebug
+			serialized_order = ActiveModelSerializers::Adapter::Json.new(
+				OrderSerializer.new(order)
+			).serializable_hash
+			user = order.user
+			UsersChannel.broadcast_to user, serialized_order
+		end
 	end
 
 end
