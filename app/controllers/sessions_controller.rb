@@ -47,9 +47,9 @@ class SessionsController < ApplicationController
 			payload =  nil
 		end
 		if (payload)
-			id = payload[0]["user_id"]
-			@user = User.find(id)
-			render json: @user, include: "**"
+			id = payload[0]["manager_id"]
+			@manager = Manager.find(id)
+			render json: @manager, include: "**"
 		else
 			render json: { error: "Invalid token" }
 		end
