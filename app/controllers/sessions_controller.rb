@@ -16,7 +16,7 @@ class SessionsController < ApplicationController
 		begin
 			payload = JWT.decode(token, ENV['SECRET_KEY'], true)
 		rescue JWT::DecodeError
-			nil
+			payload =  nil
 		end
 		if (payload)
 			id = payload[0]["user_id"]
@@ -28,9 +28,10 @@ class SessionsController < ApplicationController
 	end
 
 	def manager_login
-		@manager = manager.find_by(username: manager_params[:username])
+		@manager = Manager.find_by(username: manager_params[:username])
 		if @manager && @manager.authenticate(manager_params[:password])
-			render json: @manager
+			token = JWT.encode({manager_id: @manager.id}, ENV['SECRET_KEY'])
+			render json: { token: token }
 		else
 			render json: {
 				error: "Wrong username and/or password"
@@ -39,6 +40,19 @@ class SessionsController < ApplicationController
 	end
 
 	def manager_persist
+		token = request.headers["Authorization"]
+		begin
+			payload = JWT.decode(token, ENV['SECRET_KEY'], true)
+		rescue JWT::DecodeError
+			payload =  nil
+		end
+		if (payload)
+			id = payload[0]["user_id"]
+			@user = User.find(id)
+			render json: @user, include: "**"
+		else
+			render json: { error: "Invalid token" }
+		end
 	end
 
 	private
