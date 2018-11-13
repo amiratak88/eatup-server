@@ -4,6 +4,9 @@ Rails.application.routes.draw do
 
 	post '/users/login', to: 'sessions#user_login'
 	get '/users/persist', to: 'sessions#user_persist'
+
+	post '/managers/login', to: 'sessions#manager_login'
+	get '/managers/persist', to: 'sessions#manager_persist'
 	
 	get '/restaurants/search', to: 'restaurants#search'
 	get '/restaurants/:id/orders', to: 'managers#orders'
