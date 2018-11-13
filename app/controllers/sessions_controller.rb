@@ -21,7 +21,7 @@ class SessionsController < ApplicationController
 		if (payload)
 			id = payload[0]["user_id"]
 			@user = User.find(id)
-			render json: @user, include: "**"
+			render json: @user, include: "**", scope: "user"
 		else
 			render json: { error: "Invalid token" }
 		end
@@ -49,7 +49,7 @@ class SessionsController < ApplicationController
 		if (payload)
 			id = payload[0]["manager_id"]
 			@manager = Manager.find(id)
-			render json: @manager, include: "**"
+			render json: @manager, include: "**", scope: "manager"
 		else
 			render json: { error: "Invalid token" }
 		end
