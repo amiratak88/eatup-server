@@ -1,5 +1,6 @@
 class ManagersChannel < ApplicationCable::Channel
 	def subscribed
+		set_manager
 		stream_for @manager
 	end
 
@@ -7,9 +8,9 @@ class ManagersChannel < ApplicationCable::Channel
 		# Any cleanup needed when channel is unsubscribed
 	end
 
-	def set_user
+	def set_manager
 		token = params[:manager]
 		payload = JWT.decode(token, ENV['SECRET_KEY'], true)
-		@manager = manager.find(payload[0]["manager_id"])
+		@manager = Manager.find(payload[0]["manager_id"])
 	end
 end
