@@ -80,6 +80,7 @@ ActiveRecord::Schema.define(version: 2018_10_11_172720) do
     t.integer "address_id"
     t.string "cuisine"
     t.text "description"
+    t.integer "phone_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -96,6 +97,7 @@ ActiveRecord::Schema.define(version: 2018_10_11_172720) do
     t.string "last_name"
     t.string "username"
     t.string "password_digest"
+    t.integer "phone_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

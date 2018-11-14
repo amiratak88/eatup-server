@@ -20,9 +20,9 @@ OrderItem.destroy_all
 
 # Users
 
-	user_amirata = User.create(first_name: "Amirata", last_name: "Khodaparast", username: "amirata", password: "123")
-	user_kevin = User.create(first_name: "Kevin", last_name: "Rivera", username: "kevin", password: "123")
-	user_gabe = User.create(first_name: "Gabe", last_name: "Batista", username: "gabe", password: "123")
+	user_amirata = User.create(first_name: "Amirata", last_name: "Khodaparast", username: "amirata", password: "123", phone_number: 5164089393)
+	user_kevin = User.create(first_name: "Kevin", last_name: "Rivera", username: "kevin", password: "123", phone_number: 516408939)
+	user_gabe = User.create(first_name: "Gabe", last_name: "Batista", username: "gabe", password: "123", phone_number: 516408939)
 
 
 # Addresses
@@ -41,8 +41,8 @@ OrderItem.destroy_all
 
 # Restaurants
 
-	res_ravagh = Restaurant.create(name: "Ravagh", cuisine: "Persian", description: "Awesome persian food!", address_id: ravagh_address.id, imgURL: 'https://ravaghrestaurants.com/images/ravaghmainlogo.jpg?crc=65102799')
-	res_marios = Restaurant.create(name: "Mario's Pizzeria", cuisine: "Italian", description: "Pizza and etc", address_id: marios_address.id, imgURL: 'http://www.eastnorwich.com/wp-content/uploads/2011/01/marios.gif')
+	res_ravagh = Restaurant.create(name: "Ravagh", cuisine: "Persian", description: "Awesome persian food!", address_id: ravagh_address.id, imgURL: 'https://ravaghrestaurants.com/images/ravaghmainlogo.jpg?crc=65102799', phone_number: 5164089393)
+	res_marios = Restaurant.create(name: "Mario's Pizzeria", cuisine: "Italian", description: "Pizza and etc", address_id: marios_address.id, imgURL: 'http://www.eastnorwich.com/wp-content/uploads/2011/01/marios.gif', phone_number: 5164089393)
 
 # Managers
 
