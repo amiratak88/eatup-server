@@ -41,15 +41,20 @@ class OrdersController < ApplicationController
 	def update
 		order = Order.find(params[:id])
 		order.update(status: params[:status])
-		render json: order, include: "**"
+		scope = ""
 
 		if params[:status] == "confirmed"
+			scope = "manager"
 			serialized_order = ActiveModelSerializers::Adapter::Json.new(
 				OrderSerializer.new(order)
 			).serializable_hash
 			user = order.user
 			UsersChannel.broadcast_to user, serialized_order
+		elsif params[:status] == "finalized"
+			scope = "user"
 		end
+
+		render json: order, include: "**", scope: scope
 	end
 
 end
