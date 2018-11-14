@@ -1,6 +1,10 @@
 class OrderSerializer < ActiveModel::Serializer
-	attributes :id, :user_id, :status, :updated_at
+	attributes :id, :status
 	belongs_to :user, if: -> {is_manager?}
 	belongs_to :restaurant, if: -> {!is_manager?}
 	has_many :order_items
+
+	def is_manager?
+		scope == "manager"
+	end
 end
