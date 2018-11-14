@@ -24,18 +24,6 @@ class OrdersController < ApplicationController
 		else
 			render json: { error: "Invalid token" }
 		end
-
-		# restaurant = Restaurant.find(params[:restaurant_id])
-		# manager = restaurant.manager
-		# order = restaurant.orders.create(user_id: params[:user_id])
-
-		# serialized_order = ActiveModelSerializers::Adapter::Json.new(
-		# 	OrderSerializer.new(order)
-		# ).serializable_hash
-
-		# ManagersChannel.broadcast_to manager, serialized_order
-
-		# render json: order
 	end
 
 	def update
@@ -45,13 +33,14 @@ class OrdersController < ApplicationController
 
 		if params[:status] == "confirmed"
 			scope = "manager"
-			serialized_order = ActiveModelSerializers::Adapter::Json.new(
-				OrderSerializer.new(order)
-			).serializable_hash
+			serialized_order = ActiveModelSerializers::SerializableResource.new(order, include: "**", scope: "user").to_json
 			user = order.user
 			UsersChannel.broadcast_to user, serialized_order
 		elsif params[:status] == "finalized"
 			scope = "user"
+			serialized_order = ActiveModelSerializers::SerializableResource.new(order, include: "**", scope: "manager").to_json
+			manager = order.restaurant.manager
+			ManagersChannel.broadcast_to manager, serialized_order
 		end
 
 		render json: order, include: "**", scope: scope
