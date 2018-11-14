@@ -78,24 +78,24 @@ OrderItem.destroy_all
 
 	# Order 1
 
-	order1 = user_kevin.orders.create(restaurant_id: res_ravagh.id)
+	order1 = user_kevin.orders.create(restaurant_id: res_ravagh.id, status: "finalized")
 	order1.items << kashk
 	order1.items << koobideh
 
 	# Order 2
 
-	order2 = user_amirata.orders.create(restaurant_id: res_marios.id)
+	order2 = user_amirata.orders.create(restaurant_id: res_marios.id, status: "finalized")
 	order2.items << plain_slice
 	order2.items << pepperoni_slice
 
 	# Order 3
 
-	order3 = user_gabe.orders.create(restaurant_id: res_marios.id)
+	order3 = user_gabe.orders.create(restaurant_id: res_marios.id, status: "finalized")
 	order3.items << plain_slice
 	order3.items << pepperoni_slice
 
 	# Order 4
 
-	order4 = user_gabe.orders.create(restaurant_id: res_ravagh.id)
+	order4 = user_gabe.orders.create(restaurant_id: res_ravagh.id, status: "finalized")
 	order4.items << chicken_kebob
 	order4.items << sambuseh
