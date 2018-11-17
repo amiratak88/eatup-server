@@ -66,12 +66,12 @@ class OrdersController < ApplicationController
 			payload = JWT.decode(token, ENV['SECRET_KEY'], true)
 		rescue JWT::DecodeError
 			render json: { error: "Invalid token" }
-			return
+			payload = [{}]
 		end
 
-		if payload["manager_id"]
-			manager = Manager.find(payload["manager_id"])
-			if manager != @order.manager
+		if payload[0]["manager_id"]
+			manager = Manager.find(payload[0]["manager_id"])
+			if manager != @order.restaurant.manager
 				render json: { error: "This order is not for your restaurant"}
 			end
 		else
