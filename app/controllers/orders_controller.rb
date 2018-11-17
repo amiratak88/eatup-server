@@ -1,6 +1,7 @@
 class OrdersController < ApplicationController
 
 	before_action :authorized_to_create, only: [:create]
+	before_action :authorized_to_confirm, only: [:confirm]
 
 	def index
 		render json: Order.all, include: "**"
@@ -21,7 +22,6 @@ class OrdersController < ApplicationController
 	end
 
 	def confirm
-		@order = Order.find(params[:id])
 		@order.update(status: "confirmed")
 		broadcast_order_to_user
 		render json: @order, include: "**", scope: "manager"
@@ -52,9 +52,30 @@ class OrdersController < ApplicationController
 		token = request.headers["Authorization"]
 		begin
 			payload = JWT.decode(token, ENV['SECRET_KEY'], true)
-			@user_id = payload[0]["user_id"]
 		rescue JWT::DecodeError
 			render json: { error: "Invalid token" }
+			return
+		end
+		@user_id = payload[0]["user_id"]
+	end
+
+	def authorized_to_confirm
+		@order = Order.find(params[:id])
+		token = request.headers["Authorization"]
+		begin
+			payload = JWT.decode(token, ENV['SECRET_KEY'], true)
+		rescue JWT::DecodeError
+			render json: { error: "Invalid token" }
+			return
+		end
+
+		if payload["manager_id"]
+			manager = Manager.find(payload["manager_id"])
+			if manager != @order.manager
+				render json: { error: "This order is not for your restaurant"}
+			end
+		else
+			render json: { error: "You must be a manager in order to confirm orders" }
 		end
 	end
 
