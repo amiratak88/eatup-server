@@ -1,4 +1,6 @@
 class OrdersController < ApplicationController
+
+	before_action :authorize_to_create, only: [:create]
 	
 	def index
 		render json: Order.all, include: "**"
@@ -26,24 +28,36 @@ class OrdersController < ApplicationController
 		end
 	end
 
-	def update
-		order = Order.find(params[:id])
-		order.update(status: params[:status])
-		scope = ""
+	def confirm
+		@order = Order.find(params[:id])
+		@order.update(status: "confirmed")
+		broadcast_order_to_user
+		render json: @order, include: "**", scope: "manager"
+	end
 
-		if params[:status] == "confirmed"
-			scope = "manager"
-			serialized_order = ActiveModelSerializers::SerializableResource.new(order, include: "**", scope: "user").to_json
-			user = order.user
-			UsersChannel.broadcast_to user, serialized_order
-		elsif params[:status] == "finalized"
-			scope = "user"
-			serialized_order = ActiveModelSerializers::SerializableResource.new(order, include: "**", scope: "manager").to_json
-			manager = order.restaurant.manager
-			ManagersChannel.broadcast_to manager, serialized_order
-		end
+	def finalize
+		@order = Order.find(params[:id])
+		@order.update(status: "finalized")
+		broadcast_order_to_manager
+		render json: @order, include: "**", scope: "user"
+	end
 
-		render json: order, include: "**", scope: scope
+	private
+
+	def broadcast_order_to_user
+		serialized_order = ActiveModelSerializers::SerializableResource.new(@order, include: "**", scope: "user").to_json
+		user = @order.user
+		UsersChannel.broadcast_to user, serialized_order
+	end
+
+	def broadcast_order_to_manager
+		serialized_order = ActiveModelSerializers::SerializableResource.new(@order, include: "**", scope: "manager").to_json
+		manager = @order.restaurant.manager
+		ManagersChannel.broadcast_to manager, serialized_order
+	end
+
+	def authorize_to_create
+		render json: {error: "NOOOOO!"}
 	end
 
 end
