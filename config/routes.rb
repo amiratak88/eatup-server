@@ -13,6 +13,9 @@ Rails.application.routes.draw do
 
 	delete '/order_items', to: 'order_items#destroy'
 
+	patch '/orders/:id/confirm', to: 'orders#confirm'
+	patch '/orders/:id/finalize', to: 'orders#finalize'
+
 	resources :user_addresses
 	resources :order_items, except: [:destroy]
 	resources :headings
