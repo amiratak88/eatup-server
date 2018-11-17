@@ -1,7 +1,7 @@
 class OrdersController < ApplicationController
 
-	before_action :authorize_to_create, only: [:create]
-	
+	before_action :authorized_to_create, only: [:create]
+
 	def index
 		render json: Order.all, include: "**"
 	end
@@ -12,19 +12,11 @@ class OrdersController < ApplicationController
 	end
 
 	def create
-
-		token = request.headers["Authorization"]
-		begin
-			payload = JWT.decode(token, ENV['SECRET_KEY'], true)
-		rescue JWT::DecodeError
-			nil
-		end
-		if (payload)
-			user_id = payload[0]["user_id"]
-			@order = Order.create(user_id: user_id, restaurant_id: params[:restaurant_id])
-			render json: @order, include: "**"
+		@order = Order.new(user_id: @user_id, restaurant_id: params[:restaurant_id])
+		if (@order.save)
+			render json: @order, include: "**", scope: "user"
 		else
-			render json: { error: "Invalid token" }
+			render json: { erros: @order.errors.full_messages }
 		end
 	end
 
@@ -56,8 +48,14 @@ class OrdersController < ApplicationController
 		ManagersChannel.broadcast_to manager, serialized_order
 	end
 
-	def authorize_to_create
-		render json: {error: "NOOOOO!"}
+	def authorized_to_create
+		token = request.headers["Authorization"]
+		begin
+			payload = JWT.decode(token, ENV['SECRET_KEY'], true)
+			@user_id = payload[0]["user_id"]
+		rescue JWT::DecodeError
+			render json: { error: "Invalid token" }
+		end
 	end
 
 end
